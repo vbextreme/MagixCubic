@@ -8,6 +8,11 @@ echo ""
 echo "--------"
 echo "- Make -"
 echo "--------"
+mkdir ~/.config/magixcubic
+cp ./themes/char.thm ~/.config/magixcubic/char.thm
+cp ./themes/color.thm ~/.config/magixcubic/color.thm
+cp ./themes/default.thm ~/.config/magixcubic/default.thm
+cp ./themes/tty.thm ~/.config/magixcubic/tty.thm
 mkdir ./obj
 ./easymkf ./ MagixCubic "" "" "-leasyconsole -leasythread -leasyfile" "" "-Wall -O3" "-O3"
 echo "compiling"
