@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "--------------------------"
+echo "- Install MagixCubic -"
+echo "--------------------------"
+echo ""
+
+echo "--------"
+echo "- Make -"
+echo "--------"
+mkdir ./obj
+./easymkf ./ MagixCubic "" "" "-leasyconsole -leasythread -leasyfile" "" "-Wall -O3" "-O3"
+echo "compiling"
+make -f ./makefile.auto app
+echo "install"
+make -f ./makefile.auto appinstall
+echo ""
+
+echo "------------"
+echo "- Complete -"
+echo "------------"
+echo ""
