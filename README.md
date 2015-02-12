@@ -1,4 +1,4 @@
-MagixCubic v0.0
+MagixCubic v0.1
 ===============
 Addictive puzzle game with a goal the destruction of more cubic possible.
 
