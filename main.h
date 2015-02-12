@@ -4,8 +4,6 @@
 //SUONI
 //THEMA NON 256 color
 
-#define _DEBUG
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

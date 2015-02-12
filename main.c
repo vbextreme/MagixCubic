@@ -12,6 +12,7 @@ int main(int argc,char* argv[])
 	
 	while( cmd != 1 )
 	{
+		setcolor(0,0);
 		con_cls();
 		if ( !menumain(&g,smy,smx) ) break;
 		
@@ -55,6 +56,7 @@ int main(int argc,char* argv[])
 			while ( cmd != CON_KEY_CTRL ){	while(!con_kbhit()) thr_sleep(TIME_I); cmd = con_getchex();}
 			
 			cmd = 0;
+			setcolor(0,0);
 			con_cls();
 		}
 	}

@@ -94,12 +94,12 @@ VOID initmxc(MXC* g)
 	
 	con_getmaxrc(&g->scrh,&g->scrw);
 	g->lmm = 5;
-	g->sty = (g->scrh > 30) ? 8 : 4;
-	g->stx = (g->scrw > 80) ? 16 : 2;
-	g->pointy = (g->scrh > 30) ? 4 : 2;
-	g->pointx = (g->scrw > 80) ? 16 : 2;
-	g->titley = (g->scrh > 30) ? 2 : 1;
-	g->titlex = (g->scrw > 80) ? 16 : 2;
+	g->sty = g->scrh / 2 - MAPH / 2;
+	g->stx = g->scrw / 2 - MAPW / 2;
+	g->pointy = g->sty - 1;
+	g->pointx = g->stx;
+	g->titley = g->sty - 2;
+	g->titlex = g->stx;
 	
 	g->fcol = FONTCOLOR;	
 	
@@ -138,6 +138,7 @@ VOID initmxc(MXC* g)
 
 VOID resetgame(MXC* g)
 {
+	setcolor(0,0);
 	con_cls();
 	con_gotorc(g->titley,g->titlex);
 	printf("%s",TITLEAPP);
