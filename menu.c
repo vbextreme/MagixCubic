@@ -67,7 +67,7 @@ INT32 menuopt(MXC* g, UINT32 py, UINT32 px)
 			case CON_KEY_UP: if ( cid > 0 ) --cid;	break;
 			case CON_KEY_DOWN: if ( cid < 2 ) ++cid; break;
 		
-			case CON_KEY_CTRL:
+			case 'z':
 				switch(cid)
 				{
 					case 0:	++g->lmm; if ( g->lmm == 8 ) g->lmm = 3; break;;
@@ -143,7 +143,7 @@ INT32 menumain(MXC* g, UINT32 py, UINT32 px)
 			case CON_KEY_UP: if ( cid > 0 ) --cid;	break;
 			case CON_KEY_DOWN: if ( cid < 2 ) ++cid; break;
 		
-			case CON_KEY_CTRL:
+			case 'z':
 				switch(cid)
 				{
 					case 0:	return 1;

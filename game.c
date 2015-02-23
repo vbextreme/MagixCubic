@@ -214,7 +214,7 @@ INT32 gkey(MXC* g, BYTE cmd)
 			if ( g->y < MAPH - 1) ++g->y;
 		break;
 		
-		case CON_KEY_CTRL:
+		case 'z':
 			return 2;
 		
 		case 27:
