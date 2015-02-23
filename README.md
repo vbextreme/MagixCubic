@@ -21,3 +21,7 @@ Easy Framework https://github.com/vbextreme/EasyFramework
 To install it:
 ==============
 $ sudo ./install
+
+Run
+===
+$ MagixCubic
