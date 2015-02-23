@@ -53,7 +53,7 @@ int main(int argc,char* argv[])
 		if ( cmd == 3 )
 		{
 			gameoverat(&g);
-			while ( cmd != CON_KEY_CTRL ){	while(!con_kbhit()) thr_sleep(TIME_I); cmd = con_getchex();}
+			while ( cmd != 'z' ){	while(!con_kbhit()) thr_sleep(TIME_I); cmd = con_getchex();}
 			
 			cmd = 0;
 			setcolor(0,0);
