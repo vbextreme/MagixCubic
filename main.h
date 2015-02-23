@@ -13,7 +13,7 @@
 #include <easythread.h>
 #include <easyfile.h>
 
-#define TITLEAPP "MagixCubic 0.0"
+#define TITLEAPP "MagixCubic 0.2"
 #define DIVAPP   "--------------"
 #define OVERAPP "G a m e  O v e r"
 #define TIME_I 0.03
