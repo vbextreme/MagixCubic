@@ -11,7 +11,7 @@ The themes in 256 mode do not work for tty.
 
 Bug:
 ====
-(0.1)Ctrl key not work for all [Solve (v0.2 uses the key 'z' instead of 'Ctrl')]
+(0.1)Ctrl key not work for all, Solve (v0.2 uses the key 'z' instead of 'Ctrl')<br/>
 (0.2)No Bug reported
 
 Require:
