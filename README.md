@@ -11,9 +11,9 @@ The themes in 256 mode do not work for tty.
 
 Bug:
 ====
-(0.1)Ctrl key not work for all [Solve]
-(0.2)Resize error, No save config
-(0.3)Resize [no center in screen but work]
+(0.1)Ctrl key not work for all [Solve]<br/>
+(0.2)Resize error, No save config<br/>
+(0.3)Resize [no center in screen but work]<br/>
 
 Require:
 ========
@@ -21,7 +21,7 @@ Easy Framework https://github.com/vbextreme/EasyFramework
 
 To install it:
 ==============
-$ ./generate
+$ ./generate<br/>
 $ sudo ./install
 
 To uninstall it:
