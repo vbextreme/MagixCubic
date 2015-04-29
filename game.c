@@ -34,7 +34,7 @@ VOID loadthema(MXC* g, CHAR* name)
 	if ( !ino_exist(ph) )
 	{
 		FILE* f = fopen(ph,"w");
-			if ( !f ) { con_async(1,NULL); return;}
+			if ( !f ) { return;}
 		INT32 i;
 		
 		for ( i = 0; i < 9; ++i )
@@ -53,11 +53,12 @@ VOID loadthema(MXC* g, CHAR* name)
 	}
 	
 	FILE* f = fopen(ph,"r");
-		if ( !f ) { con_async(1,NULL); return;}
+		if ( !f ) { return;}
 	
 	INT32 i;
 	while ( cfg_read(n,v,f) )
 	{
+		str_trim(v);
 		if ( !strncmp(n,"color",5) )
 		{
 			i = atoi(&n[5]);
@@ -79,6 +80,76 @@ VOID loadthema(MXC* g, CHAR* name)
 			i = atoi(v);
 			if ( i < 0 || i > 255 ) continue;
 			g->fcol = i;
+		}
+	}
+	
+	
+	fclose(f);
+}
+
+VOID saveopz(MXC* g)
+{
+	CHAR ph[1024];
+	sprintf(ph,"%s/.config/magixcubic/%s",pht_homedir(),OPZNAME);
+	
+	FILE* f = fopen(ph,"w");
+		if ( !f ) { return;}
+		
+	cfg_write("player",g->player,f);
+	cfg_write("thema",g->thema,f);
+	CHAR v[24];
+	sprintf(v,"%d",g->lmm);
+	cfg_write("ld",v,f);
+	sprintf(v,"%u",g->lastpoints);
+	cfg_write("lastpoints",v,f);
+	
+	fclose(f);
+}
+
+VOID loadopz(MXC* g)
+{
+	CHAR ph[1024];
+	
+	sprintf(ph,"%s/.config/magixcubic",pht_homedir());
+	if ( !ino_exist(ph) )
+	{
+		prv_maskreset();
+		if ( !dir_new(ph,0755) ) return;
+	}
+	
+	sprintf(ph,"%s/.config/magixcubic/%s",pht_homedir(),OPZNAME);
+	CHAR n[80];
+	CHAR v[80];
+	if ( !ino_exist(ph) )
+	{
+		saveopz(g);
+	}
+	
+	FILE* f = fopen(ph,"r");
+		if ( !f ) { return;}
+	
+	INT32 i;
+	while ( cfg_read(n,v,f) )
+	{
+		str_trim(v);
+		if ( !strncmp(n,"player",6) )
+		{
+			strcpy(g->player,v);
+		}
+		else if ( !strncmp(n,"thema",5) )
+		{
+			strcpy(g->thema,v);
+		}
+		else if ( !strncmp(n,"ld",2) )
+		{
+			i = atoi(v);
+			if ( i > 7 || i < 3 ) i = 5;
+			g->lmm = i;
+		}
+		else if ( !strncmp(n,"lastpoints",9) )
+		{
+			i = atoi(v);
+			g->lastpoints = i;
 		}
 	}
 	
@@ -123,17 +194,21 @@ VOID initmxc(MXC* g)
 	g->lchm[7] = 'o';
 	g->lchm[8] = ' ';
 	
+	strcpy(g->player,"player");
+	strcpy(g->thema,"default.thm");
+	g->lastpoints = 0;
 	
-	loadthema(g,"default.thm");
+	loadopz(g);
+	loadthema(g,g->thema);
 	
 	CHAR ph[1024],d[1024];
 	sprintf(ph,"%s/.config/magixcubic",pht_homedir());
 	
 	FILETYPE ft = dir_list(d,TRUE,FT_REG,ph);
-	while ( ft >= FT_UNKNOWN && strcmp(d,"default.thm") )
+	while ( ft >= FT_UNKNOWN && strcmp(d,g->thema) )
 		ft = dir_list(d,TRUE,FT_REG,NULL);
 	
-	con_async(1,NULL);
+	con_async(1);
 }
 
 VOID resetgame(MXC* g)
@@ -158,7 +233,8 @@ VOID draw(MXC* g, BOOL drwi)
 	con_gotorc(g->pointy,g->pointx);
 	setcolor(0,0);
 	con_clsline(CON_CLLS_RIGHT);
-	printf("Points:%d",g->points);
+	printf("Points:%u   ",g->points);
+	printf("Record:%u",g->lastpoints);
 	
 	if ( drwi )
 	{
@@ -188,7 +264,7 @@ VOID draw(MXC* g, BOOL drwi)
 	con_flush();
 }
 
-INT32 gkey(MXC* g, BYTE cmd)
+INT32 gkey(MXC* g, INT32 cmd)
 {
 	#ifdef _DEBUG
 		setcolor(0,0);
@@ -198,11 +274,11 @@ INT32 gkey(MXC* g, BYTE cmd)
 	
 	switch(cmd)
 	{
-		case CON_KEY_LEFT:
+		case CON_KEY_SX:
 			if ( g->x > 1 ) --g->x;
 		break;
 		
-		case CON_KEY_RIGHT:
+		case CON_KEY_DX:
 			if ( g->x < MAPW - 1 ) ++g->x;
 		break;
 		
@@ -217,7 +293,7 @@ INT32 gkey(MXC* g, BYTE cmd)
 		case 'z':
 			return 2;
 		
-		case 27:
+		case CON_KEY_ESC:
 			return 1;
 		
 		default:

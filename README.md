@@ -1,4 +1,4 @@
-MagixCubic v0.2
+MagixCubic v0.3
 ===============
 Addictive puzzle game with a goal the destruction of more cubic possible.
 
@@ -11,8 +11,9 @@ The themes in 256 mode do not work for tty.
 
 Bug:
 ====
-(0.1)Ctrl key not work for all, Solve (v0.2 uses the key 'z' instead of 'Ctrl')<br/>
-(0.2)No Bug reported
+(0.1)Ctrl key not work for all [Solve]
+(0.2)Resize error, No save config
+(0.3)Resize [no center in screen but work]
 
 Require:
 ========
@@ -20,7 +21,12 @@ Easy Framework https://github.com/vbextreme/EasyFramework
 
 To install it:
 ==============
+$ ./generate
 $ sudo ./install
+
+To uninstall it:
+==============
+$ sudo ./uninstall
 
 Run
 ===

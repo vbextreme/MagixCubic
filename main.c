@@ -2,13 +2,15 @@
 
 int main(int argc,char* argv[])
 {	
+	con_sigsize();
+	
 	UINT32 smx,smy;
 	presentat(argv[0],&smy,&smx);
 	
 	MXC g;
 	initmxc(&g);
 	
-	BYTE cmd = 0;
+	INT32 cmd = 0;
 	
 	while( cmd != 1 )
 	{
@@ -21,7 +23,12 @@ int main(int argc,char* argv[])
 		
 		while(1)
 		{
-			while(!con_kbhit()) thr_sleep(TIME_I);
+			while(!con_kbhit())
+			{
+				if ( con_haveresize() ) con_getmaxrc(&g.scrh,&g.scrw);
+				thr_sleep(TIME_I);
+			}
+			
 			cmd = con_getchex();
 			cmd = gkey(&g,cmd);
 			if ( cmd == 1 ) {cmd = 0;break;}
@@ -53,6 +60,8 @@ int main(int argc,char* argv[])
 		if ( cmd == 3 )
 		{
 			gameoverat(&g);
+			g.lastpoints = g.points;
+			saveopz(&g);
 			while ( cmd != 'z' ){	while(!con_kbhit()) thr_sleep(TIME_I); cmd = con_getchex();}
 			
 			cmd = 0;
@@ -61,7 +70,7 @@ int main(int argc,char* argv[])
 		}
 	}
 	
-	con_async(0,NULL);
+	con_async(0);
 	setcolor(0,0);
 	con_cls();
 	

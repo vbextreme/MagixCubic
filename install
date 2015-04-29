@@ -1,28 +1,22 @@
 #!/bin/bash
 
-echo "--------------------------"
+echo "----------------------"
 echo "- Install MagixCubic -"
-echo "--------------------------"
+echo "----------------------"
 echo ""
 
-echo "--------"
-echo "- Make -"
-echo "--------"
-mkdir ~/.config/magixcubic
-cp ./themes/char.thm ~/.config/magixcubic/char.thm
-cp ./themes/color.thm ~/.config/magixcubic/color.thm
-cp ./themes/default.thm ~/.config/magixcubic/default.thm
-cp ./themes/tty.thm ~/.config/magixcubic/tty.thm
-cp ./themes/ttycolor.thm ~/.config/magixcubic/ttycolor.thm
-mkdir ./obj
-./easymkf ./ MagixCubic "" "" "-leasyconsole -leasythread -leasyfile" "" "-Wall -O3" "-O3"
-echo "compiling"
-make -f ./makefile.auto app
-echo "install"
 make -f ./makefile.auto appinstall
-echo ""
+if [[ $? != 0 ]]; then
+	out="report error on https://github.com/vbextreme/MagixCubic/issues"
+	./easystatus $out
+	./easystatus -e
+	exit 1
+fi
+./easystatus "install"
+./easystatus -o
 
 echo "------------"
 echo "- Complete -"
 echo "------------"
 echo ""
+

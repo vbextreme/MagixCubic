@@ -12,8 +12,9 @@
 #include <easyconsole.h>
 #include <easythread.h>
 #include <easyfile.h>
+#include <easystring.h>
 
-#define TITLEAPP "MagixCubic 0.2"
+#define TITLEAPP "MagixCubic 0.3"
 #define DIVAPP   "--------------"
 #define OVERAPP "G a m e  O v e r"
 #define TIME_I 0.03
@@ -33,9 +34,14 @@
 #define MAPL 9
 #define EMPTYL 8
 #define FONTCOLOR 16
+#define MAXNAME 128
+#define OPZNAME "mxc.opz"
 
 typedef struct _MXC
 {
+	CHAR player[MAXNAME];
+	CHAR thema[MAXNAME];
+	UINT32 lastpoints;
 	INT32 lmm;
 	BYTE map[MAPH][MAPW];
 	BYTE spmap[MAPH][MAPW];
@@ -59,11 +65,13 @@ VOID presentat(CHAR* app, UINT32* py, UINT32* px);
 VOID gameoverat(MXC* g);
 INT32 menumain(MXC* g, UINT32 py, UINT32 px);
 
+VOID loadopz(MXC* g);
+VOID saveopz(MXC* g);
 VOID loadthema(MXC* g, CHAR* name);
 VOID initmxc(MXC* g);
 VOID resetgame(MXC* g);
 VOID draw(MXC* g, BOOL drwi);
-INT32 gkey(MXC* g, BYTE cmd);
+INT32 gkey(MXC* g, INT32 cmd);
 BOOL isgameover(MXC* g);
 INT32 destroycubic(MXC* g);
 INT32 pushdown(MXC* g);

@@ -1,0 +1,58 @@
+#!/bin/bash
+
+###############
+#easy generate#
+###############
+
+#check app
+./easyrequest -a "gcc make"
+if [[ $? = 1 ]]; then
+	exit 1 
+fi
+
+#check header
+./easyrequest "/usr/include" "easyconsole.h easyfile.h easystring.h easythread.h stdlib.h stdio.h time.h"
+if [[ $? = 1 ]]; then
+	exit 1
+fi
+
+#check lib
+./easyrequest "/usr/lib" "libeasyconsole.so libeasyfile.so libeasythread.so libeasystring.so"
+if [[ $? = 1 ]]; then
+	exit 1
+fi
+
+export destmk="makefile.auto"
+export appprj="MagixCubic"
+export libso="-leasyconsole -leasyfile -leasythread -leasystring"
+export liba=""
+export gccflg="-Wall -O3"
+export ldflg="-O3"
+export appdef=""
+export libdef=""
+export extrai=""
+export extrau="rm -f $home/.config/magixcubic"
+./easymkf 
+./easystatus "makefile.auto"
+./easystatus -o
+
+rm -r ./obj
+mkdir ./obj
+make -f ./makefile.auto app
+
+if [[ $? != 0 ]]; then
+	out="report error on https://github.com/vbextreme/MagixCubic/issues"
+	./easystatus $out
+	./easystatus -e
+	exit 1
+fi
+
+out="make"
+./easystatus $out
+./easystatus -o
+
+echo ""
+out="Generate MagixCubix"
+./easystatus $out
+./easystatus -o
+echo ""

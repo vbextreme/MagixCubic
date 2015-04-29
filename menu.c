@@ -2,7 +2,7 @@
 
 VOID menuoptdraw(MXC* g,UINT32 py, UINT32 px, INT32 carretid)
 {
-	static CHAR* mu[] = {"< Difficulty >","< Thema >","< Back >"};
+	static CHAR* mu[] = {"< Difficulty >","< Thema >","< Player >","< Back >"};
 	static CHAR* mod[] = {"Stupid","Easy","Normal","Hard","Insane"};
 	
 	UINT32 y = py + 1;
@@ -14,7 +14,7 @@ VOID menuoptdraw(MXC* g,UINT32 py, UINT32 px, INT32 carretid)
 	printf("%s",DIVAPP);
 	
 	INT32 i;
-	for ( i = 0; i < 3; ++i, ++y)
+	for ( i = 0; i < 4; ++i, ++y)
 	{
 		setcolor(0,0);
 		con_gotorc(y,px +  l - strlen(mu[i]) / 2);
@@ -37,6 +37,10 @@ VOID menuoptdraw(MXC* g,UINT32 py, UINT32 px, INT32 carretid)
 				putchar(g->lchm[k]);
 			}
 		}
+		else if ( i == 2 )
+		{
+			printf("%s",g->player);
+		}
 	}
 	
 	setcolor(0,0);
@@ -47,7 +51,7 @@ VOID menuoptdraw(MXC* g,UINT32 py, UINT32 px, INT32 carretid)
 INT32 menuopt(MXC* g, UINT32 py, UINT32 px)
 {
 	INT32 cid = 0;
-	BYTE c;
+	INT32 c;
 	
 	CHAR ph[1024];
 	sprintf(ph,"%s/.config/magixcubic",pht_homedir());
@@ -65,7 +69,7 @@ INT32 menuopt(MXC* g, UINT32 py, UINT32 px)
 		switch(c)
 	    {
 			case CON_KEY_UP: if ( cid > 0 ) --cid;	break;
-			case CON_KEY_DOWN: if ( cid < 2 ) ++cid; break;
+			case CON_KEY_DOWN: if ( cid < 3 ) ++cid; break;
 		
 			case 'z':
 				switch(cid)
@@ -83,7 +87,18 @@ INT32 menuopt(MXC* g, UINT32 py, UINT32 px)
 						loadthema(g,d);
 					break;
 					
-					case 2: return 0;
+					case 2:
+						;
+						con_async(0);
+						CHAR* np = con_input(g->player,NULL,FALSE,NULL,24);
+						if ( *np != '\0' ) strcpy(g->player,np);
+						free(np);
+						con_async(1);
+					break;
+					
+					case 3: 
+						saveopz(g);
+					return 0;
 				}
 			break;
 			
@@ -122,6 +137,10 @@ VOID menumaindraw(MXC* g,UINT32 py, UINT32 px, INT32 carretid)
 	}
 	
 	setcolor(0,0);
+	con_gotorc(y,1);
+	con_clsline(CON_CLLS_ALL);
+	
+	setcolor(0,0);
 	con_gotorc(py + carretid +1,px +  l + strlen(mu[carretid]) / 2);
 	con_flush();
 }
@@ -129,7 +148,7 @@ VOID menumaindraw(MXC* g,UINT32 py, UINT32 px, INT32 carretid)
 INT32 menumain(MXC* g, UINT32 py, UINT32 px)
 {
 	INT32 cid = 0;
-	BYTE c;
+	INT32 c;
 	
 	while(1)
 	{
@@ -152,7 +171,7 @@ INT32 menumain(MXC* g, UINT32 py, UINT32 px)
 				}
 			break;
 			
-			case 27:
+			case CON_KEY_ESC:
 				return 0;
 				
 			default: break;

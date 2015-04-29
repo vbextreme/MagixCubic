@@ -1,0 +1,15 @@
+#!/bin/bash
+	
+echo "-----------------------"
+echo "- Uinstall MagixCubix -"
+echo "-----------------------"
+echo ""
+
+make -f ./makefile.auto appuninstall
+./easystatus "uninstall"
+./easystatus -o
+
+echo "------------"
+echo "- Complete -"
+echo "------------"
+echo ""

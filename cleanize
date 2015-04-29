@@ -1,0 +1,20 @@
+#!/bin/bash
+
+############
+#easy clean#
+############
+
+make -f ./makefile.auto appclean
+
+#Order
+#elst=""
+
+#for e in ${elst[@]}; do
+#	cd "./$e"
+	#make -f ./makefile.auto libclean 
+	#make -f ./makefile.auto appclean 
+#	if [[ $? != 0 ]]; then
+#		exit 1
+#	fi
+#	cd ..
+#done
